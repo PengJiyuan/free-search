@@ -8,7 +8,7 @@ const ENTRYPOINT = new URL('../skills/free-search/scripts/free-search.js', impor
 
 test('runFreeSearch returns the required markdown sections', async () => {
   const output = await runFreeSearch(
-    { query: 'claude code', env: { SEARXNG_BASE_URL: 'http://127.0.0.1:8080' } },
+    { query: 'claude code', env: { SEARXNG_BASE_URL: 'http://127.0.0.1:12783' } },
     { searchWeb: async () => [] }
   );
 
@@ -20,7 +20,7 @@ test('runFreeSearch returns the required markdown sections', async () => {
 
 test('runFreeSearch caveats no longer mention shim mode', async () => {
   const output = await runFreeSearch(
-    { query: 'claude code', env: { SEARXNG_BASE_URL: 'http://127.0.0.1:8080' } },
+    { query: 'claude code', env: { SEARXNG_BASE_URL: 'http://127.0.0.1:12783' } },
     { searchWeb: async () => [] }
   );
 

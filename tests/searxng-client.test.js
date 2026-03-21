@@ -8,7 +8,7 @@ test('buildConfig uses SearXNG as the default backend', () => {
   const config = buildConfig({});
 
   assert.equal(config.backend, 'searxng');
-  assert.equal(config.baseUrl, 'http://127.0.0.1:8080');
+  assert.equal(config.baseUrl, 'http://127.0.0.1:12783');
   assert.equal(config.maxResults, 10);
 });
 
@@ -20,13 +20,13 @@ test('validateSearxngBaseUrl rejects remote hosts by default', () => {
 });
 
 test('buildSearchUrl includes json format and query params', () => {
-  const url = buildSearchUrl('http://127.0.0.1:8080', {
+  const url = buildSearchUrl('http://127.0.0.1:12783', {
     query: 'claude code',
     engines: ['google', 'bing'],
     maxResults: 5
   });
 
-  assert.equal(url.origin, 'http://127.0.0.1:8080');
+  assert.equal(url.origin, 'http://127.0.0.1:12783');
   assert.equal(url.pathname, '/search');
   assert.equal(url.searchParams.get('q'), 'claude code');
   assert.equal(url.searchParams.get('format'), 'json');
@@ -41,7 +41,7 @@ test('buildConfig ignores removed shim backend settings', () => {
   });
 
   assert.equal(config.backend, 'searxng');
-  assert.equal(config.baseUrl, 'http://127.0.0.1:8080');
+  assert.equal(config.baseUrl, 'http://127.0.0.1:12783');
   assert.equal(config.maxResults, 10);
   assert.equal(config.shimCommand, undefined);
 });
@@ -50,7 +50,7 @@ test('searchSearxng sends localhost forwarding headers expected by local SearXNG
   let headers;
 
   await searchSearxng(
-    { query: 'claude code', env: { SEARXNG_BASE_URL: 'http://127.0.0.1:8080' } },
+    { query: 'claude code', env: { SEARXNG_BASE_URL: 'http://127.0.0.1:12783' } },
     async (_url, options) => {
       headers = options.headers;
       return {
@@ -77,7 +77,7 @@ test('searchSearxng aborts requests after the configured search timeout', async 
       {
         query: 'claude code',
         env: {
-          SEARXNG_BASE_URL: 'http://127.0.0.1:8080',
+          SEARXNG_BASE_URL: 'http://127.0.0.1:12783',
           SEARCH_TIMEOUT_MS: '10'
         }
       },

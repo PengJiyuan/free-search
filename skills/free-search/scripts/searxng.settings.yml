@@ -1,6 +1,6 @@
 use_default_settings: true
 server:
-  port: 8080
+  port: 12783
   bind_address: "127.0.0.1"
   secret_key: "free-search-local-dev-key"
 search:
@@ -8,3 +8,8 @@ search:
   formats:
     - html
     - json
+engines:
+  - name: wikipedia
+    disabled: false
+  - name: wikidata
+    disabled: false

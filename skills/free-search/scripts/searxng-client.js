@@ -1,5 +1,5 @@
 const DEFAULTS = {
-  baseUrl: 'http://127.0.0.1:8080',
+  baseUrl: 'http://127.0.0.1:12783',
   allowRemote: false,
   searchTimeoutMs: 8000,
   fetchTimeoutMs: 10000,

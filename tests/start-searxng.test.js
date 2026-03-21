@@ -15,7 +15,7 @@ test('start_searxng.py prints planned setup steps in dry-run mode', () => {
   assert.equal(result.status, 0);
   assert.match(result.stdout, /create or reuse virtual environment/i);
   assert.match(result.stdout, /install searxng dependencies/i);
-  assert.match(result.stdout, /start local SearXNG on 127.0.0.1:8080/i);
+  assert.match(result.stdout, /start local SearXNG on 127.0.0.1:12783/i);
 });
 
 test('start_searxng.py prints a clear dependency install command', () => {
@@ -58,7 +58,7 @@ test('start_searxng.py supports prepare-only mode for one-command setup', () => 
   assert.match(result.stdout, /installing or verifying searxng/i);
   assert.match(result.stdout, /installing bootstrap dependency: msgspec/i);
   assert.match(result.stdout, /installing build tools: setuptools, wheel/i);
-  assert.match(result.stdout, /installing bootstrap dependency: pyyaml/i);
+  assert.match(result.stdout, /installing bootstrap dependencies: pyyaml, typing_extensions/i);
   assert.match(result.stdout, /prepare complete/i);
 });
 
@@ -92,4 +92,15 @@ test('local searxng settings enable json output', () => {
 
   assert.match(settings, /formats:/i);
   assert.match(settings, /- json/i);
+});
+
+test('local searxng settings use a small allowlisted engine set for local validation', () => {
+  const settings = readFileSync(SETTINGS_FILE, 'utf8');
+
+  assert.match(settings, /engines:/i);
+  assert.match(settings, /name:\s+wikipedia[\s\S]*disabled:\s+false/i);
+  assert.match(settings, /name:\s+wikidata[\s\S]*disabled:\s+false/i);
+  assert.doesNotMatch(settings, /name:\s+duckduckgo/i);
+  assert.doesNotMatch(settings, /name:\s+google/i);
+  assert.doesNotMatch(settings, /name:\s+brave/i);
 });

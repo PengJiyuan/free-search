@@ -38,7 +38,7 @@ tests/
 
 Primary environment variables:
 
-- `SEARXNG_BASE_URL` defaults to `http://127.0.0.1:8080`
+- `SEARXNG_BASE_URL` defaults to `http://127.0.0.1:12783`
 - `ALLOW_REMOTE_SEARXNG=true` allows non-loopback SearXNG hosts
 - `MAX_RESULTS` controls how many normalized results are kept
 
@@ -50,7 +50,8 @@ Start local SearXNG with the helper script:
 python3 skills/free-search/scripts/start_searxng.py
 ```
 
-This prepares a skill-local virtual environment if needed and starts SearXNG on `http://127.0.0.1:8080` by default.
+This prepares a skill-local virtual environment if needed and starts SearXNG on `http://127.0.0.1:12783` by default.
+The bundled local settings also use a small allowlisted engine set so local validation is less likely to hit CAPTCHA, 403, or timeout-heavy defaults.
 
 Useful helper modes:
 
@@ -81,7 +82,7 @@ node skills/free-search/scripts/free-search.js "What is SearXNG"
 You can also point it at a different allowed endpoint:
 
 ```bash
-SEARXNG_BASE_URL=http://127.0.0.1:8080 node skills/free-search/scripts/free-search.js "What is SearXNG"
+SEARXNG_BASE_URL=http://127.0.0.1:12783 node skills/free-search/scripts/free-search.js "What is SearXNG"
 ```
 
 If the service is unreachable, the script returns a clear error telling you to confirm SearXNG is running and reachable.

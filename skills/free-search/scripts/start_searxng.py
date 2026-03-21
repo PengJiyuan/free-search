@@ -36,7 +36,7 @@ def print_dry_run() -> None:
     print('Plan: install SearXNG dependencies')
     print('Plan: create or reuse local settings file')
     print(f'Settings path: {SETTINGS}')
-    print('Plan: start local SearXNG on 127.0.0.1:8080')
+    print('Plan: start local SearXNG on 127.0.0.1:12783')
 
 
 def prepare_environment() -> None:
@@ -50,8 +50,8 @@ def prepare_environment() -> None:
     print('Installing build tools: setuptools, wheel')
     run_command([str(pip_path), 'install', 'setuptools', 'wheel'])
 
-    print('Installing bootstrap dependency: PyYAML')
-    run_command([str(pip_path), 'install', 'PyYAML'])
+    print('Installing bootstrap dependencies: PyYAML, typing_extensions')
+    run_command([str(pip_path), 'install', 'PyYAML', 'typing_extensions'])
 
     print('Installing or verifying searxng in the local virtualenv')
     run_command([str(pip_path), 'install', '--no-build-isolation', SEARXNG_INSTALL_TARGET])
