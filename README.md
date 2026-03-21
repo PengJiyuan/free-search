@@ -1,1 +1,99 @@
 # free-search
+
+A Claude Code skill for web research using a local SearXNG service instead of paid search APIs.
+
+## What it does
+
+- uses local SearXNG as the supported search backend
+- deduplicates overlapping results
+- outputs a structured research summary with sources and caveats
+
+## Repository layout
+
+```text
+skills/free-search/
+  SKILL.md
+  scripts/
+    free-search.js
+    normalize.js
+    searxng-client.js
+    start_searxng.py
+    searxng.settings.yml
+
+tests/
+  free-search.test.js
+  normalize.test.js
+  searxng-client.test.js
+  start-searxng.test.js
+```
+
+`skills/free-search/` is the canonical GitHub source for the skill.
+`.claude/` is not a source-of-truth path in this repository; it is only the local install destination if you copy or symlink the skill into Claude Code.
+
+## Prerequisites
+
+- Node.js with ESM support
+- Python 3
+- a local SearXNG instance, or an explicitly approved remote SearXNG instance
+
+Primary environment variables:
+
+- `SEARXNG_BASE_URL` defaults to `http://127.0.0.1:8080`
+- `ALLOW_REMOTE_SEARXNG=true` allows non-loopback SearXNG hosts
+- `MAX_RESULTS` controls how many normalized results are kept
+
+## Start local SearXNG
+
+Start local SearXNG with the helper script:
+
+```bash
+python3 skills/free-search/scripts/start_searxng.py
+```
+
+This prepares a skill-local virtual environment if needed and starts SearXNG on `http://127.0.0.1:8080` by default.
+
+Useful helper modes:
+
+```bash
+python3 skills/free-search/scripts/start_searxng.py --prepare-only
+python3 skills/free-search/scripts/start_searxng.py --print-install-command
+python3 skills/free-search/scripts/start_searxng.py --print-start-command
+```
+
+## Install into Claude Code locally
+
+Copy or symlink the skill directory into your local Claude skill directory:
+
+```text
+skills/free-search/ -> .claude/skills/free-search/
+```
+
+Because all commands in `SKILL.md` are relative to the installed skill root, both copy-based and symlink-based installs work.
+
+## Run the skill directly
+
+With SearXNG running, invoke the skill entrypoint directly:
+
+```bash
+node skills/free-search/scripts/free-search.js "What is SearXNG"
+```
+
+You can also point it at a different allowed endpoint:
+
+```bash
+SEARXNG_BASE_URL=http://127.0.0.1:8080 node skills/free-search/scripts/free-search.js "What is SearXNG"
+```
+
+If the service is unreachable, the script returns a clear error telling you to confirm SearXNG is running and reachable.
+
+## Run tests
+
+```bash
+npm test
+```
+
+## Limitations
+
+- This skill summarizes local SearXNG search result metadata.
+- It does not fetch and analyze full page content.
+- It is intentionally focused on local, low-cost research workflows rather than multi-provider orchestration.
