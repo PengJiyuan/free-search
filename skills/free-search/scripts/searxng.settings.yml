@@ -8,81 +8,12 @@ search:
   formats:
     - html
     - json
-# 搜索引擎核心配置（国内优先）
 engines:
-  # ========== 通用网页搜索 ==========
-  - name: baidu
-    engine: baidu
-    disabled: false
-    shortcut: bd
-    categories: ["general", "web"]
-    weight: 5 # 权重最高，优先展示
-    timeout: 8.0 # 国内网络调大超时
-    # 百度高级参数（可选）
-    baidu_cn: true # 强制国内版
-    baidu_filter: 0 # 0=全部结果，1=只看网页，2=只看图片，3=只看视频
-
-  - name: bing
-    engine: bing
-    disabled: false
-    shortcut: bi
-    categories: ["general", "web"]
-    weight: 4
-    timeout: 7.0
-    bing_country: "cn" # 必应国内版
-    bing_lang: "zh-CN"
-
-  - name: sogou
-    engine: sogou
-    disabled: false
-    shortcut: sg
-    categories: ["general", "web"]
-    weight: 3
-    timeout: 7.0
-    sogou_type: "normal" # normal=网页，image=图片，video=视频
-
-  - name: 360search
-    engine: 360search
-    disabled: false
-    shortcut: 360
-    categories: ["general", "web"]
-    weight: 2
-    timeout: 7.0
-
-  # ========== 垂直领域搜索 ==========
-  # 知乎
-  - name: zhihu
-    engine: zhihu
-    disabled: false
-    shortcut: zh
-    categories: ["general", "qna"]
-    weight: 3
-    timeout: 6.0
-
-  # B站（视频）
-  - name: bilibili
-    engine: bilibili
-    disabled: false
-    shortcut: bl
-    categories: ["videos", "general"]
-    weight: 2
-    timeout: 6.0
-
-  # 豆瓣（书籍/电影）
-  - name: douban
-    engine: douban
-    disabled: false
-    shortcut: db
-    categories: ["general", "books", "movies"]
-    weight: 2
-    timeout: 6.0
-
-  # 维基百科（中文）
   - name: wikipedia
-    engine: wikipedia
     disabled: false
-    shortcut: wk
-    categories: ["general", "knowledge"]
-    weight: 2
-    timeout: 8.0
-    wikipedia_lang: "zh"
+  - name: wikidata
+    disabled: false
+  - name: duckduckgo
+    disabled: false
+  - name: brave
+    disabled: false

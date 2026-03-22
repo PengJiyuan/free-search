@@ -5,27 +5,31 @@ description: Use this skill whenever the user asks for web research, search aggr
 
 # Free Search
 
-Use a local SearXNG service to produce a structured research summary with explicit sources and caveats.
+Use a local SearXNG service to produce a structured research summary with explicit sources, fetching top result pages for article-style detail when possible.
 
 ## Prerequisites
 
 - A local or explicitly approved SearXNG instance must be reachable.
 - The default endpoint is `http://127.0.0.1:12783`.
 - If local SearXNG is not running yet, start it with `python3 scripts/start_searxng.py` from the installed skill root.
-- The bundled local settings intentionally use a small allowlisted engine set so local validation is more stable.
+- The bundled local settings intentionally use a small mixed allowlist of general-web and reference engines so local validation stays stable while discovery remains useful.
 
 Primary environment variables:
 
 - `SEARXNG_BASE_URL`
 - `ALLOW_REMOTE_SEARXNG`
 - `MAX_RESULTS`
+- `MAX_PAGES_TO_FETCH`
+- `FETCH_TIMEOUT_MS`
+- `FETCH_CONCURRENCY`
 
 ## Workflow
 
 1. Identify the research query you need to run.
 2. Ensure SearXNG is reachable. If needed, run `python3 scripts/start_searxng.py`.
 3. Run `node scripts/free-search.js "<query>"` from the installed skill root.
-4. Return the generated markdown report directly unless the user asks for a different presentation layer.
+4. Let the skill discover sources through SearXNG, then fetch the top result pages for body-text extraction when possible.
+5. Return the generated markdown report directly unless the user asks for a different presentation layer.
 
 ## Output format
 
@@ -51,4 +55,5 @@ Keep this section structure:
 ## Notes
 
 - All commands in this skill are relative to the installed skill root so copy-based and symlink-based installs both work.
-- This skill summarizes search result metadata from local SearXNG. It does not fetch and read full page content.
+- This skill uses SearXNG for discovery, then attempts lightweight fetching of top result pages for fuller summaries.
+- Some sites may block automated fetches or return content that cannot be extracted cleanly; in those cases the skill falls back to search-result snippets and should say so in `## Caveats`.

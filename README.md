@@ -6,6 +6,7 @@ A Claude Code skill for web research using a local SearXNG service instead of pa
 
 - uses local SearXNG as the supported search backend
 - deduplicates overlapping results
+- fetches the top discovered pages and extracts article-style body text when available
 - outputs a structured research summary with sources and caveats
 
 ## Repository layout
@@ -41,6 +42,9 @@ Primary environment variables:
 - `SEARXNG_BASE_URL` defaults to `http://127.0.0.1:12783`
 - `ALLOW_REMOTE_SEARXNG=true` allows non-loopback SearXNG hosts
 - `MAX_RESULTS` controls how many normalized results are kept
+- `MAX_PAGES_TO_FETCH` controls how many top pages are fetched for body extraction
+- `FETCH_TIMEOUT_MS` controls the timeout for each page fetch
+- `FETCH_CONCURRENCY` controls how many page fetches run in parallel
 
 ## Start local SearXNG
 
@@ -51,7 +55,7 @@ python3 skills/free-search/scripts/start_searxng.py
 ```
 
 This prepares a skill-local virtual environment if needed and starts SearXNG on `http://127.0.0.1:12783` by default.
-The bundled local settings also use a small allowlisted engine set so local validation is less likely to hit CAPTCHA, 403, or timeout-heavy defaults.
+The bundled local settings also use a small mixed allowlist of general-web and reference engines so local validation stays broader without fully reopening noisy defaults.
 
 Useful helper modes:
 
@@ -95,6 +99,6 @@ npm test
 
 ## Limitations
 
-- This skill summarizes local SearXNG search result metadata.
-- It does not fetch and analyze full page content.
-- It is intentionally focused on local, low-cost research workflows rather than multi-provider orchestration.
+- This skill relies on local SearXNG for discovery and lightweight HTML fetching for top-result enrichment.
+- Some pages may block automated fetching, time out, or return non-HTML content, in which case the output falls back to search-result snippets.
+- It is intentionally focused on local, low-cost research workflows rather than multi-provider orchestration or browser automation.
