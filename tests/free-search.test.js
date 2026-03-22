@@ -21,7 +21,7 @@ test('runFreeSearch returns the required markdown sections', async () => {
   assert.match(output, /## Caveats/);
 });
 
-test('runFreeSearch uses fetched page summaries when available', async () => {
+test('runFreeSearch uses fetched page content when available', async () => {
   const output = await runFreeSearch(
     { query: 'claude code', env: { SEARXNG_BASE_URL: 'http://127.0.0.1:12783' } },
     {
@@ -32,13 +32,16 @@ test('runFreeSearch uses fetched page summaries when available', async () => {
         ...result,
         fetched: true,
         pageTitle: 'Claude Code Official Docs',
+        bodyText: 'Claude Code provides an interactive coding agent for repository workflows. It helps developers inspect, edit, and test code from the terminal.',
         bodySummary: 'Claude Code provides an interactive coding agent for repository workflows.'
       }))
     }
   );
 
-  assert.match(output, /Claude Code Official Docs/);
+  assert.match(output, /### 1\. Claude Code Official Docs/);
+  assert.match(output, /Source: https:\/\/example\.com\/docs/);
   assert.match(output, /interactive coding agent/);
+  assert.match(output, /inspect, edit, and test code from the terminal/);
 });
 
 test('runFreeSearch falls back to snippets when page fetches fail', async () => {

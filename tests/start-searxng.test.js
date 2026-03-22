@@ -13,6 +13,7 @@ test('start_searxng.py prints planned setup steps in dry-run mode', () => {
   ], { encoding: 'utf8' });
 
   assert.equal(result.status, 0);
+  assert.match(result.stdout, /install node\.js dependencies/i);
   assert.match(result.stdout, /create or reuse virtual environment/i);
   assert.match(result.stdout, /install searxng dependencies/i);
   assert.match(result.stdout, /start local SearXNG on 127.0.0.1:12783/i);
@@ -25,6 +26,8 @@ test('start_searxng.py prints a clear dependency install command', () => {
   ], { encoding: 'utf8' });
 
   assert.equal(result.status, 0);
+  assert.match(result.stdout, /npm install --prefix/);
+  assert.match(result.stdout, /skills\/free-search/);
   assert.match(result.stdout, /python3 -m venv/);
   assert.match(result.stdout, /pip install --no-build-isolation git\+https:\/\/github\.com\/searxng\/searxng\.git/);
 });
@@ -54,6 +57,7 @@ test('start_searxng.py supports prepare-only mode for one-command setup', () => 
   });
 
   assert.equal(result.status, 0);
+  assert.match(result.stdout, /installing node\.js dependencies/i);
   assert.match(result.stdout, /creating or reusing virtualenv/i);
   assert.match(result.stdout, /installing or verifying searxng/i);
   assert.match(result.stdout, /installing bootstrap dependency: msgspec/i);
@@ -74,6 +78,7 @@ test('start_searxng.py default mode prepares and starts local searxng', () => {
   });
 
   assert.equal(result.status, 0);
+  assert.match(result.stdout, /installing node\.js dependencies/i);
   assert.match(result.stdout, /creating or reusing virtualenv/i);
   assert.match(result.stdout, /installing or verifying searxng/i);
   assert.match(result.stdout, /starting local searxng/i);

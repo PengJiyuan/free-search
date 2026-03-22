@@ -12,11 +12,25 @@ function buildSummary(query, normalized, enriched) {
   return `For “${query}”, ${normalized.length} candidate sources were consolidated. Full page content was retrieved for ${fetchedCount} of the top ${Math.min(enriched.length, 3)} sources. The strongest source in the final report is ${top.pageTitle || top.title}.`;
 }
 
+function buildReadableDetail(item) {
+  if (item.bodyText) {
+    return item.bodyText;
+  }
+
+  return item.bodySummary || item.snippet || 'No detailed content could be extracted.';
+}
+
 function buildFindings(enriched) {
-  return enriched.slice(0, 3).map((item) => {
-    const detail = item.bodySummary || item.snippet || 'No detailed content could be extracted.';
-    return `- ${item.pageTitle || item.title}: ${detail}`;
-  }).join('\n');
+  return enriched.slice(0, 3).map((item, index) => {
+    const title = item.pageTitle || item.title;
+    const detail = buildReadableDetail(item);
+    return [
+      `### ${index + 1}. ${title}`,
+      `Source: ${item.url}`,
+      '',
+      detail,
+    ].join('\n');
+  }).join('\n\n');
 }
 
 function buildCaveats(enriched, maxPagesToFetch) {

@@ -54,8 +54,8 @@ Start local SearXNG with the helper script:
 python3 skills/free-search/scripts/start_searxng.py
 ```
 
-This prepares a skill-local virtual environment if needed and starts SearXNG on `http://127.0.0.1:12783` by default.
-The bundled local settings also use a small mixed allowlist of general-web and reference engines so local validation stays broader without fully reopening noisy defaults.
+This installs skill-local Node dependencies if needed, prepares a skill-local virtual environment, and starts SearXNG on `http://127.0.0.1:12783` by default.
+The bundled local settings also use a conservative domestic-first allowlist so local validation stays stable.
 
 Useful helper modes:
 

@@ -9,10 +9,12 @@ Use a local SearXNG service to produce a structured research summary with explic
 
 ## Prerequisites
 
+- Node.js, npm, and Python 3 must be available.
 - A local or explicitly approved SearXNG instance must be reachable.
 - The default endpoint is `http://127.0.0.1:12783`.
 - If local SearXNG is not running yet, start it with `python3 scripts/start_searxng.py` from the installed skill root.
-- The bundled local settings intentionally use a small mixed allowlist of general-web and reference engines so local validation stays stable while discovery remains useful.
+- `scripts/start_searxng.py` is the one-command bootstrap path: it installs skill-local Node dependencies and the skill-local Python/SearXNG environment before starting local SearXNG.
+- The bundled local settings intentionally use a conservative domestic-first allowlist so local validation stays stable.
 
 Primary environment variables:
 
@@ -26,7 +28,7 @@ Primary environment variables:
 ## Workflow
 
 1. Identify the research query you need to run.
-2. Ensure SearXNG is reachable. If needed, run `python3 scripts/start_searxng.py`.
+2. Ensure dependencies are installed and local SearXNG is reachable. If needed, run `python3 scripts/start_searxng.py`.
 3. Run `node scripts/free-search.js "<query>"` from the installed skill root.
 4. Let the skill discover sources through SearXNG, then fetch the top result pages for body-text extraction when possible.
 5. Return the generated markdown report directly unless the user asks for a different presentation layer.
