@@ -6,7 +6,7 @@ A Claude Code skill for web research using a local SearXNG service instead of pa
 
 - uses local SearXNG as the supported search backend
 - deduplicates overlapping results
-- fetches the top discovered pages and extracts article-style body text when available
+- fetches the top discovered pages and extracts article-style body text with Mozilla Readability when available
 - outputs a structured research summary with sources and caveats
 
 ## Repository layout

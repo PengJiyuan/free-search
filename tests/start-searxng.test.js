@@ -94,13 +94,16 @@ test('local searxng settings enable json output', () => {
   assert.match(settings, /- json/i);
 });
 
-test('local searxng settings use a small mixed allowlist for local validation', () => {
+test('local searxng settings use a conservative domestic-first allowlist for local validation', () => {
   const settings = readFileSync(SETTINGS_FILE, 'utf8');
 
   assert.match(settings, /engines:/i);
-  assert.match(settings, /name:\s+wikipedia[\s\S]*disabled:\s+false/i);
-  assert.match(settings, /name:\s+wikidata[\s\S]*disabled:\s+false/i);
-  assert.match(settings, /name:\s+duckduckgo[\s\S]*disabled:\s+false/i);
-  assert.match(settings, /name:\s+brave[\s\S]*disabled:\s+false/i);
+  assert.match(settings, /name:\s+baidu[\s\S]*disabled:\s+false/i);
+  assert.match(settings, /name:\s+bing[\s\S]*disabled:\s+false/i);
+  assert.match(settings, /name:\s+zhihu[\s\S]*disabled:\s+false/i);
+  assert.match(settings, /name:\s+csdn[\s\S]*disabled:\s+false/i);
+  assert.match(settings, /name:\s+bilibili[\s\S]*disabled:\s+false/i);
+  assert.doesNotMatch(settings, /name:\s+duckduckgo/i);
+  assert.doesNotMatch(settings, /name:\s+brave/i);
   assert.doesNotMatch(settings, /name:\s+google/i);
 });

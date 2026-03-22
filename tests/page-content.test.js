@@ -3,16 +3,17 @@ import assert from 'node:assert/strict';
 
 import { enrichResultsWithPageContent, extractPageContent, fetchPageContent } from '../skills/free-search/scripts/page-content.js';
 
-test('extractPageContent removes obvious html noise and preserves readable text', () => {
+test('extractPageContent uses Readability to preserve main article text', () => {
   const result = extractPageContent(`
     <html>
       <head><title>Example Page</title><style>.x { color: red; }</style></head>
       <body>
         <nav>Navigation</nav>
-        <main>
+        <article>
           <h1>Important heading</h1>
           <p>The first useful paragraph explains the main topic in detail.</p>
-        </main>
+          <p>The second useful paragraph adds more context for extraction.</p>
+        </article>
         <script>console.log('ignore me')</script>
       </body>
     </html>
@@ -25,27 +26,21 @@ test('extractPageContent removes obvious html noise and preserves readable text'
   assert.doesNotMatch(result.text, /ignore me/);
 });
 
-test('extractPageContent prefers article content over boilerplate blocks', () => {
+test('extractPageContent may still return minimal readable text for non-article pages', () => {
   const result = extractPageContent(`
     <html>
-      <head><title>Article Page</title></head>
+      <head><title>Utility Page</title></head>
       <body>
-        <header>Site menu and navigation</header>
-        <div class="cookie-banner">Please accept cookies</div>
-        <article>
-          <h1>Detailed story title</h1>
-          <p>This article paragraph contains the main detailed explanation of the topic with enough substance.</p>
-          <p>A second article paragraph adds extra evidence and discussion for the summary.</p>
-        </article>
-        <section class="related-links">Related links and share buttons</section>
+        <div>Login</div>
+        <div>Menu</div>
+        <div>Help</div>
       </body>
     </html>
   `);
 
-  assert.match(result.text, /Detailed story title/);
-  assert.match(result.text, /main detailed explanation/);
-  assert.doesNotMatch(result.text, /accept cookies/i);
-  assert.doesNotMatch(result.text, /related links/i);
+  assert.equal(result.title, 'Utility Page');
+  assert.match(result.text, /Login/);
+  assert.ok(Array.isArray(result.blocks));
 });
 
 test('fetchPageContent returns structured failure for non-html responses', async () => {

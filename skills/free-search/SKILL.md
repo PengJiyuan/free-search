@@ -5,7 +5,7 @@ description: Use this skill whenever the user asks for web research, search aggr
 
 # Free Search
 
-Use a local SearXNG service to produce a structured research summary with explicit sources, fetching top result pages for article-style detail when possible.
+Use a local SearXNG service to produce a structured research summary with explicit sources, fetching top result pages for Mozilla Readability-based article detail when possible.
 
 ## Prerequisites
 

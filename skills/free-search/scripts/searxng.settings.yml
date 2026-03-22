@@ -9,11 +9,13 @@ search:
     - html
     - json
 engines:
-  - name: wikipedia
+  - name: baidu
     disabled: false
-  - name: wikidata
+  - name: bing
     disabled: false
-  - name: duckduckgo
+  - name: zhihu
     disabled: false
-  - name: brave
+  - name: csdn
+    disabled: false
+  - name: bilibili
     disabled: false
