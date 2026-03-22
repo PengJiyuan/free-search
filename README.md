@@ -9,6 +9,12 @@ A Claude Code skill for web research using a local SearXNG service instead of pa
 - fetches the top discovered pages and extracts article-style body text with Mozilla Readability when available
 - outputs a structured research summary with sources and caveats
 
+## Install
+
+```bash
+npx skills add PengJiyuan/free-search
+```
+
 ## Repository layout
 
 ```text
@@ -29,7 +35,6 @@ tests/
 ```
 
 `skills/free-search/` is the canonical GitHub source for the skill.
-`.claude/` is not a source-of-truth path in this repository; it is only the local install destination if you copy or symlink the skill into Claude Code.
 
 ## Prerequisites
 
@@ -64,16 +69,6 @@ python3 skills/free-search/scripts/start_searxng.py --prepare-only
 python3 skills/free-search/scripts/start_searxng.py --print-install-command
 python3 skills/free-search/scripts/start_searxng.py --print-start-command
 ```
-
-## Install into Claude Code locally
-
-Copy or symlink the skill directory into your local Claude skill directory:
-
-```text
-skills/free-search/ -> .claude/skills/free-search/
-```
-
-Because all commands in `SKILL.md` are relative to the installed skill root, both copy-based and symlink-based installs work.
 
 ## Run the skill directly
 
